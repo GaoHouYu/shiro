@@ -10,12 +10,12 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
 
-public class TestDemo2 {
+public class TestDemo3 {
 
 
     public static void main(String[] args) {
         //获取一个SecurityManager工厂对象，加载shiro配置文件
-        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro_md5.ini");
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro_authc.ini");
         //通过factory获取secutityManager对象
         SecurityManager securityManager = factory.getInstance();
         //将securityManager添加到运行时环境中
@@ -24,12 +24,16 @@ public class TestDemo2 {
         Subject subject = SecurityUtils.getSubject();
         //前端传入的用户密码
         String loginName = "dm";
-        String passWord = "0616";
+        String passWord = "123";
         //将用户密码封装成一个token
         AuthenticationToken token = new UsernamePasswordToken(loginName, passWord);
         try {
             subject.login(token);
             System.out.println("成功登录！！");
+            System.out.println(loginName+"是否拥有role1："+subject.hasRole("role1"));
+            System.out.println(loginName+"是否拥有role3："+subject.hasRole("role3"));
+            System.out.println(subject.isPermitted("user:update"));
+            subject.checkRole("role3");
         } catch (UnknownAccountException e) {
             System.out.println("账号不存在！");
         } catch (IncorrectCredentialsException e) {

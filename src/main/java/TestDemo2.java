@@ -26,10 +26,10 @@ public class TestDemo2 {
         String loginName = "dm";
         String passWord = "0616";
         //第二个参数为盐值，第三个参数为加密次数
-        Md5Hash md5Hash = new Md5Hash(passWord,"aaa",9999);
+        Md5Hash md5Hash = new Md5Hash(passWord,"abc");
         System.out.println(md5Hash);
         //将用户密码封装成一个token
-        AuthenticationToken token = new UsernamePasswordToken(loginName, passWord);
+        AuthenticationToken token = new UsernamePasswordToken(loginName, String.valueOf(md5Hash));
         try {
             subject.login(token);
             System.out.println("成功登录！！");
